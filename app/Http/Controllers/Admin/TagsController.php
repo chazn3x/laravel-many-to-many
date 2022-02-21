@@ -16,17 +16,9 @@ class TagsController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $tags = Tag::all();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return view('admin.tags.index', compact('tags'));
     }
 
     /**
@@ -37,7 +29,18 @@ class TagsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate(['name' => 'string|unique:tags,name']);
+
+        $data = $request->all();
+
+        $newTag = new Tag();
+
+        $newTag->name = $data['name'];
+        $newTag->slug = Str::slug($newTag->name, $separator = '-');
+
+        $newTag->save();
+
+        return redirect()->route('tags.index');
     }
 
     /**
@@ -48,7 +51,7 @@ class TagsController extends Controller
      */
     public function show(Tag $tag)
     {
-        //
+        return view( 'admin.tags.show', compact('tag') );
     }
 
     /**
@@ -59,7 +62,10 @@ class TagsController extends Controller
      */
     public function edit(Tag $tag)
     {
-        //
+        $tags = Tag::all();
+        $toEdit = $tag;
+
+        return view('admin.tags.edit', compact('tags', 'toEdit'));
     }
 
     /**
@@ -71,7 +77,16 @@ class TagsController extends Controller
      */
     public function update(Request $request, Tag $tag)
     {
-        //
+        $request->validate(['name' => "string|unique:tags,name,{$tag->id}"]);
+
+        $data = $request->all();
+
+        $tag->name = $data['name'];
+        $tag->slug = Str::slug($tag->name, $separator = '-');
+
+        $tag->save();
+
+        return redirect()->route('tags.index');
     }
 
     /**
@@ -82,6 +97,8 @@ class TagsController extends Controller
      */
     public function destroy(Tag $tag)
     {
-        //
+        $tag->delete();
+
+        return redirect()->route('tags.index');
     }
 }
