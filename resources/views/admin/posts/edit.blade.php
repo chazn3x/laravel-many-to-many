@@ -60,6 +60,20 @@
                             @enderror
                         </div>
 
+                        {{-- Tags --}}
+                        <div class="form-group">
+                            <p>Tags:</p>
+                            @foreach ($tags as $tag)
+                                <div class="form-check form-check-inline">
+                                    <input type="checkbox" class="form-check-input" id="{{ $tag->slug }}" name="tags[]" value="{{ $tag->id }}" @if ( $post->tags->contains($tag) || in_array( $tag->id, old('tags', []) ) ) checked @endif>
+                                    <label class="form-check-label" for="{{ $tag->slug }}">{{ $tag->name }}</label>
+                                </div>
+                            @endforeach
+                            @error('tags')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         {{-- Pubblicazione --}}
                         <div class="_status mb-3">
                             <span>Stato:</span>

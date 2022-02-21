@@ -67,6 +67,16 @@
                         {{ $post->content }}
                     </p>
                     <p class="text-muted">
+                        Tags:
+                        @if ( count($post->tags) > 0 )
+                            @foreach ($post->tags as $tag)
+                                <span class="badge badge-primary">{{ $tag->name }}</span>
+                            @endforeach
+                        @else
+                            <span> Nessuno</span>
+                        @endif
+                    </p>
+                    <p class="text-muted">
                         Slug: /{{ $post->slug }}
                     </p>
                     {{-- Publish --}}

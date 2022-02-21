@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Post;
+use App\Tag;
 use App\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -15,7 +16,8 @@ class PostsController extends Controller
     protected $validations = [
         'title' => 'required|string|max:100',
         'content' => 'required|string',
-        'category_id' => 'nullable|exists:categories,id'
+        'category_id' => 'nullable|exists:categories,id',
+        'tags' => 'nullable|exists:tags,id',
     ];
 
     /**
@@ -38,8 +40,9 @@ class PostsController extends Controller
     public function create()
     {
         $categories = Category::all();
+        $tags = Tag::all();
 
-        return view( 'admin.posts.create', compact('categories') );
+        return view( 'admin.posts.create', compact('categories', 'tags') );
     }
 
     /**
@@ -79,6 +82,10 @@ class PostsController extends Controller
 
         $newPost->save();
 
+        if ( isset($data['tags']) ) {
+            $newPost->tags()->sync($data['tags']);
+        }
+
         // Redirect al post
         return redirect()->route('posts.show', $newPost->id);
     }
@@ -105,8 +112,9 @@ class PostsController extends Controller
     public function edit(Post $post)
     {
         $categories = Category::all();
+        $tags = Tag::all();
 
-        return view('admin.posts.edit', compact('post', 'categories'));
+        return view('admin.posts.edit', compact('post', 'categories', 'tags'));
     }
 
     /**
@@ -158,6 +166,10 @@ class PostsController extends Controller
         $post->published = isset( $data['published'] );
         
         $post->save();
+
+        if ( isset($data['tags']) ) {
+            $post->tags()->sync($data['tags']);
+        }
 
         return redirect()->route('posts.show', $post);
     }
