@@ -49,9 +49,9 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        //
+        return view( 'admin.categories.show', compact('category') );
     }
 
     /**
@@ -77,7 +77,7 @@ class CategoriesController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        $request->validate(['name' => 'string|unique:categories,name']);
+        $request->validate(['name' => "string|unique:categories,name,{$category->id}"]);
 
         $data = $request->all();
 

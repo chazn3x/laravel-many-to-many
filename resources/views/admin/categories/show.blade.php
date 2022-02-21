@@ -1,13 +1,18 @@
 @extends('layouts.app')
 
+{{-- back id for JavaScript function  --}}
+@php
+    strpos( url()->previous(), 'edit' ) ? $back = '_back2' : $back = '_back';
+@endphp
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="mb-3 text-right">
-                <a href="{{ route( 'posts.create') }}" class="btn btn-primary">Nuovo post</a>
+            <div class="mb-3">
+                <h2>Categoria: {{ $category->name }}</h2>
             </div>
-            @foreach ($posts as $post)
+            @foreach ($category->posts as $post)
                 <div class="card mb-5">
                     <div class="card-header">
                         <div class="row">
@@ -90,6 +95,7 @@
                     </div>
                 </div>
             @endforeach
+            <button id="{{$back}}" title="Torna indietro" class="btn btn-primary">Indietro</button>
         </div>
     </div>
 </div>

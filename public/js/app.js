@@ -37268,7 +37268,8 @@ module.exports = function(module) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); // Submit event
+
 
 if (document.getElementById('_update')) {
   var form = document.getElementById('_update');
@@ -37284,6 +37285,25 @@ if (document.getElementById('_update')) {
     e.preventDefault();
     published.value = '1';
     form.submit();
+  });
+} // Back event without previous edit
+
+
+if (document.getElementById('_back')) {
+  var back = document.getElementById('_back');
+  back.addEventListener('click', function (e) {
+    e.preventDefault();
+    history.back();
+  });
+} // Back event with previous edit
+
+
+if (document.getElementById('_back2')) {
+  var _back = document.getElementById('_back2');
+
+  _back.addEventListener('click', function (e) {
+    e.preventDefault();
+    history.go(-2);
   });
 }
 

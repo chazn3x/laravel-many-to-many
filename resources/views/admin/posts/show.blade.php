@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+{{-- back id for JavaScript function  --}}
+@php
+    strpos( url()->previous(), 'edit' ) || strpos( url()->previous(), 'create' ) ? $back = '_back2' : $back = '_back';
+@endphp
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -72,13 +77,13 @@
                                 @method('PATCH')
     
                                 <input type="hidden" name="published" value="true">
-                                <button type="submit" title="Pubblica post" class="btn btn-success">Pubblica post</button>
+                                <button type="submit" id="update-public" title="Pubblica post" class="btn btn-success">Pubblica post</button>
                             </form>
                         @endif
                     </div>
                 </div>
             </div>
-            <a href="{{route('posts.index')}}" title="Torna ai post" class="btn btn-primary">Torna ai post</a>
+            <button id="{{$back}}" title="Torna indietro" class="btn btn-primary">Torna indietro</button>
         </div>
     </div>
 </div>

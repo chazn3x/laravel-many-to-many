@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+{{-- back id for JavaScript function  --}}
+@php
+    strpos( url()->previous(), 'edit' ) ? $back = '_back2' : $back = '_back';
+@endphp
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -39,13 +44,14 @@
                                     <div class="input-group">
                                         <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') ?? $category->name }}">
                                         <div class="input-group-append">
-                                            <button type="submit" class="btn btn-outline-primary">Modifica</button>
+                                            <button type="submit" class="btn btn-primary">Modifica</button>
+                                            <button id="{{$back}}" title="Annulla modifica categoria" class="btn btn-outline-primary">Annulla</button>
                                         </div>
                                     </div>
                                 </form>
                             </td>
                         @else
-                            <td>{{ $category->name }}</td>
+                            <td><a href="{{ route( 'categories.show', $category->id ) }}">{{ $category->name }}</a></td>
                         @endif
                         <td>{{ $category->slug }}</td>
                         <td>

@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+{{-- back id for JavaScript function  --}}
+@php
+    strpos( url()->previous(), 'edit' ) || strpos( url()->previous(), 'create' ) ? $back = '_back2' : $back = '_back';
+@endphp
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -66,7 +71,7 @@
                     </form>
                 </div>
             </div>
-            <a href="{{route('posts.index')}}" class="btn btn-primary">Torna ai post</a>
+            <button id="{{$back}}" title="Annulla creazione post" class="btn btn-primary">Annulla</button>
         </div>
     </div>
 </div>
